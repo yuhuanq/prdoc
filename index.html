@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Scaling Generative Models to Full HD videos.">
+    <meta name="keywords" content="Diffusion Models, HD, Video Generation">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Scaling Generative Models to Full HD Videos</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Styles */
+
+        /* Reset default styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #0d47a1;
+            padding: 10px 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Header */
+        header {
+            background-color: #2196f3;
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+            background-image: url('images/header-bg.jpg'); /* Optional background image */
+            background-size: cover;
+            background-position: center;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .authors {
+            font-size: 1.2em;
+            font-style: italic;
+            color: #e3f2fd;
+        }
+
+        /* Abstract */
+        .abstract {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .abstract h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #2196f3;
+            display: inline-block;
+        }
+
+        .abstract p {
+            line-height: 1.6;
+            font-size: 1.1em;
+            text-align: justify;
+        }
+
+        /* Examples */
+        .examples {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .examples h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .example-section {
+            margin-top: 60px;
+        }
+
+        .example-section h3 {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            color: #0d47a1;
+            text-align: center;
+        }
+
+        .text-description {
+            margin: 20px 0; /* Adds 20px of vertical space before and after the text */
+            text-align: center; /* Centers the text */
+            line-height: 1.6; /* Optional: Makes the text easier to read */
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .video-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .video-item .description {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .video-item img, .video-item video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .video-description {
+            text-align: center;
+            margin-top: 10px; /* Optional: Adds some space between the video and the text */
+            font-weight: bold; /* Optional: Makes the text bold */
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d47a1;
+            color: #fff;
+            text-align: center;
+            font-size: 0.9em;
+            padding: 20px;
+            margin-top: 60px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .abstract, .examples {
+                padding: 0 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <!-- Add navigation items if needed -->
+            <!-- <li><a href="#abstract">Abstract</a></li>
+            <li><a href="#examples">Examples</a></li> -->
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <h1>Scaling Generative Models to Full HD Videos</h1>
+        <p class="authors">
+          By Predera AI Devs (Updated as of 9/30/24)
+          | 
+          <a href="tech_report.pdf" target="_blank">Tech Report</a>
+      </p>
+    </header>
+
+    <!-- Abstract -->
+    <section class="abstract" id="abstract">
+        <h2>Abstract</h2>
+        <p>Recent advancements in Generative AI, particularly diffusion models, have unlocked new possibilities in cross-modal video generation, enabling the automatic creation of realistic, full-HD videos from textual descriptions and images. However, scaling these generative models to high-resolution video remains a major challenge due to the immense memory, GPU, and data requirements. In this paper, we present a comprehensive study of the systems and optimizations necessary for efficiently training and deploying video generation models. Our approach significantly reduces computational costs by developing novel video compression algorithms, optimizing GPU memory management, and designing methods to minimize visual artifacts when splitting videos across multiple GPUs. Remarkably, we reduced the number of tokens by 4000X without sacrificing video quality. During training, we split each video across 24 H100 GPUs and employ sequence-parallel operations to lower activation memory usage. Additionally, we provide a detailed overview of our infrastructure, which allows us to reliably train on 4000+ GPUs, enabling efficient large-scale video generation. Our findings offer valuable insights and best practices for balancing computational efficiency with model performance in large-scale generative model training.</p>
+    </section>
+
+    <!-- Examples -->
+    <section class="examples" id="examples">
+        <!-- Text-to-Video Results -->
+        <div class="example-section">
+            <h3>Text-to-Video Results</h3>
+            <div class="video-grid">
+                <!-- Example Video 1 -->
+                <div class="video-item">
+                    <video autoplay muted loop playsinline controls>
+                        <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/text_to_video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <!-- Add more video items as needed -->
+            </div>
+        </div>
+
+        <!-- Image-to-Video Results -->
+        <div class="example-section">
+            <h3>Image-to-Video Results</h3>
+            <div class="video-grid">
+                <!-- Example Video 1 -->
+                <div class="video-item">
+                    <video autoplay muted loop playsinline controls>
+                        <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/image_to_video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <!-- Add more video items as needed -->
+            </div>
+        </div>
+
+        <div class="example-section"></div>
+          <h2>Fixing 'ticks' in Video Reconstruction</h2>
+
+          <p class="text-description">
+          Below we show video reconstruction with the chunking artifacts (middle), and after the removal of chunking artifacts (right). With the temporal backtracing technique we introduced, we can encode and reconstruct videos of arbitrary lengths with high fidelity, just like the source (left). Maximize the video to see the artifacts. The resolution of these videos below is 480x480.
+          </p>
+
+          <br />          
+          <div class="video-grid">
+              <!-- Example Video 1 -->
+              <div class="video-item">
+                <video autoplay muted loop playsinline controls>
+                    <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/real.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-description">Original</div>
+              </div>                            
+              <div class="video-item">
+                <video autoplay muted loop playsinline controls>
+                    <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/tick_recon.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-description">Without Backtrace (maximize to see details)</div>
+              </div>
+              <div class="video-item">
+                <video autoplay muted loop playsinline controls>
+                    <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/gen.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-description">Reconstruction Without Backtrace</div>
+              </div>
+              <!-- Add more video items as needed -->
+          </div>      
+        </div>
+
+        <div class="example-section"></div>
+          <h2>Fixing hot-spots in Video Reconstruction</h2>
+          <p class="text-description">
+            Below we show video reconstruction with the hot-pixel artifacts (middle), and after the removal of hot-pixel artifacts (right). After replacing group-norm with layer-norm, we can fix the artifacts like hot-pixels from our models.
+          </p>
+          <br />          
+          <div class="video-grid">
+              <!-- Example Video 1 -->
+              <div class="video-item">
+                  <video autoplay muted loop playsinline controls>
+                      <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/parrot_source.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+                  <div class="video-description">Original Video</div>
+              </div>
+              <div class="video-item">
+                <video autoplay muted loop playsinline controls>
+                    <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/parrot_overflow_recon.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-description">Video with Hot Pixel  (on top of parrot's head)</div>
+              </div>
+              <div class="video-item">
+                <video autoplay muted loop playsinline controls>
+                    <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/parrot_no_overflow_recon.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-description">Final Reconstruction</div>
+              </div>
+              <!-- Add more video items as needed -->
+          </div>  
+          
+          <div class="video-grid">
+            <!-- Example Video 1 -->
+            <div class="video-item">
+                <video autoplay muted loop playsinline controls>
+                    <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/girl_source.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-description">Original Video</div>
+            </div>
+            <div class="video-item">
+              <video autoplay muted loop playsinline controls>
+                  <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/girl_overflow_recon.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+              <div class="video-description">Video with Hot Pixel (on top of girl's hand)</div>
+            </div>
+            <div class="video-item">
+              <video autoplay muted loop playsinline controls>
+                  <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/girl_nooverflow_recon.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+              <div class="video-description">Final Reconstruction</div>
+            </div>
+            <!-- Add more video items as needed -->
+        </div>  
+        </div>
+
+
+        <div class="example-section">
+          <h3>Find the Generated Parts!</h3>
+          <p class="text-description">
+            Unmute to hear the sound.
+          </p>
+          <br />
+          <div class="video-grid">
+              <!-- Example Video 1 -->
+              <div class="video-item">
+                  <video autoplay muted loop playsinline controls>
+                      <source src="https://github.com/yuhuanq/prdoc/raw/refs/heads/main/natille_small_vid.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+              </div>
+              <!-- Add more video items as needed -->
+          </div>
+      
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Predera AI. All rights reserved.</p>
+    </footer>
+</body>
+</html>
