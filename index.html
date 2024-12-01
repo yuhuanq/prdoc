@@ -199,6 +199,8 @@
 
     <!-- Abstract -->
     <section class="abstract" id="abstract">
+        <h2>Preamble</h2>
+        <p>Demo site showcasing 4 months of work from scratch by a technical team of 10. 5000 H100 GPUs of compute for processing & training.</p>
         <h2>Abstract</h2>
         <p>Recent advancements in Generative AI, particularly diffusion models, have unlocked new possibilities in cross-modal video generation, enabling the automatic creation of realistic, full-HD videos from textual descriptions and images. However, scaling these generative models to high-resolution video remains a major challenge due to the immense memory, GPU, and data requirements. In this paper, we present a comprehensive study of the systems and optimizations necessary for efficiently training and deploying video generation models. Our approach significantly reduces computational costs by developing novel video compression algorithms, optimizing GPU memory management, and designing methods to minimize visual artifacts when splitting videos across multiple GPUs. Remarkably, we reduced the number of tokens by 4000X without sacrificing video quality. During training, we split each video across 24 H100 GPUs and employ sequence-parallel operations to lower activation memory usage. Additionally, we provide a detailed overview of our infrastructure, which allows us to reliably train on 4000+ GPUs, enabling efficient large-scale video generation. Our findings offer valuable insights and best practices for balancing computational efficiency with model performance in large-scale generative model training.</p>
     </section>
